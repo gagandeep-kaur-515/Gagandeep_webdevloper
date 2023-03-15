@@ -2,36 +2,36 @@
   <h4>Sign-up</h4>
   <p>Create your account by entering your email address and choosing a password.</p>
   <div class="row">
-    <form class="col s12 l6 top-margin">
+    <form class="col s12 l6 top-margin" action="/sign-up" method="post">
       <div class="row">
         <div class="input-field col s6">
-          <input id="first_name" name="fName" type="text">
+          <input id="first_name" name="fName" type="text" value="{{values.fName}}">
           <label for="first_name">First Name</label>
-          <span class="helper-text red-text text-darken-4">Please enter your first name</span>
+          <span class="helper-text {{#if errors.fName}}red-text text-darken-4{{/if}}">Please enter your first name</span>
         </div>
         <div class="input-field col s6">
-          <input id="last_name" name="lName" type="text">
+          <input id="last_name" name="lName" type="text" value="{{values.lName}}">
           <label for="last_name">Last Name</label>
-          <span class="helper-text red-text text-darken-4">Please enter your last name</span>
+          <span class="helper-text {{#if errors.lName}}red-text text-darken-4{{/if}}">Please enter your last name</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" name="email" type="text">
+          <input id="email" name="email" type="text" value="{{values.email}}">
           <label for="email">Email</label>
-          <span class="helper-text red-text text-darken-4">Please enter your email (ex: abc@xyz.com)</span>
+          <span class="helper-text {{#if errors.email}}red-text text-darken-4{{/if}}">Please enter your email (ex: abc@xyz.com)</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="password" name="pwd" type="password">
+          <input id="password" name="pwd" type="password" value="{{values.pwd}}">
           <label for="password">Password</label>
-          <span class="helper-text red-text text-darken-4">Please enter Password, must include 1 number, lowercase ,
+          <span class="helper-text {{#if errors.pwd}}red-text text-darken-4{{/if}}">Please enter Password, must include 1 number, lowercase ,
             uppercase, symbol and between 8-12</span>
         </div>
       </div>
       <div class="row">
-        <input class="btn pink darken-4" style="color: white !important;" type="button" value="Submit">
+        <input class="btn pink darken-4" style="color: white !important;" type="submit" value="Submit">
       </div>
     </form>
   </div>

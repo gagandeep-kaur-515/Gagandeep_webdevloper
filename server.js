@@ -10,12 +10,13 @@
  *
  **************************************************************************************/
 
-const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const rentals = require("./models/rentals-db");
-
+const bodyParser = require("body-parser");
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.engine(
   ".hbs",
@@ -41,12 +42,63 @@ app.get("/rentals", (req, res) => {
   });
 });
 
-app.get("/sign-up", (req,res) => {
-    res.render("sign-up");
+app.get("/sign-up", (req, res) => {
+  res.render("sign-up");
 });
 
-app.get("/log-in", (req,res) => {
-    res.render("log-in");
+app.post("/sign-up", (req, res) => {
+  let values = req.body;
+  let errors = {
+    fName: true,
+    lName: false,
+    pwd: false,
+    email: false,
+  };
+  const checkText = (value) => {
+    return typeof value !== "string" || value.trim().length == 0;
+  };
+  const checkEmail = (value) => {
+    const regex = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$");
+    return !regex.test(value);
+  };
+  const checkPwd = (value) => {
+    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+\-=|&]).{8,12}$/;
+    console.log(regex.test(value));
+    return !regex.test(value);
+  };
+  errors.fName = checkText(values.fName);
+  errors.lName = checkText(values.lName);
+  errors.email = checkEmail(values.email);
+  errors.pwd = checkPwd(values.pwd);
+
+  if(!errors.fName && !errors.lName && !errors.email && !errors.pwd) {
+    values = {}
+  } 
+
+  res.render("sign-up", { values, errors });
+});
+
+app.get("/log-in", (req, res) => {
+  res.render("log-in");
+});
+app.post("/log-in", (req, res) => {
+  let values = req.body;
+  let errors = {
+    pwd: false,
+    email: false,
+  };
+  const checkText = (value) => {
+    return typeof value !== "string" || value.trim().length == 0;
+  };
+
+  errors.email = checkText(values.email);
+  errors.pwd = checkText(values.pwd);
+
+  if(!errors.email && !errors.pwd) {
+    values = {}
+  } 
+  
+  res.render("log-in", { values, errors });
 });
 
 // *** DO NOT MODIFY THE LINES BELOW ***
