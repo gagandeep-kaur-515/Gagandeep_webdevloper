@@ -14,10 +14,11 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const rentals = require("./models/rentals-db");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
+dotenv.config();
 app.engine(
   ".hbs",
   exphbs.engine({
@@ -62,7 +63,8 @@ app.post("/sign-up", (req, res) => {
     return !regex.test(value);
   };
   const checkPwd = (value) => {
-    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+\-=|&]).{8,12}$/;
+    const regex =
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+\-=|&]).{8,12}$/;
     console.log(regex.test(value));
     return !regex.test(value);
   };
@@ -71,16 +73,58 @@ app.post("/sign-up", (req, res) => {
   errors.email = checkEmail(values.email);
   errors.pwd = checkPwd(values.pwd);
 
-  if(!errors.fName && !errors.lName && !errors.email && !errors.pwd) {
-    values = {}
-  } 
-
-  res.render("sign-up", { values, errors });
+  if (!errors.fName && !errors.lName && !errors.email && !errors.pwd) {
+    const sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: values.email, 
+      from: "gkaur515deep@gmail.com", 
+      subject: "Successfully Signed up on Homely",
+      html: `<div>
+      <p>Dear ${values.fName} ${values.lName},</p>
+      <p>We would like to extend a warm welcome to you from the team here at Homely! Thank you for choosing to sign up with
+        us and entrusting us with your home search.
+      </p>
+      <p> As you may already know, Homely is a leading real estate platform that connects buyers, renters, and sellers with
+        their dream homes. Our mission is to make the home buying and selling process as easy and stress-free as possible.
+        With Homely, you can browse thousands of listings, connect with local agents, and get expert advice on everything
+        from mortgages to home renovations.
+      </p>
+      <p>As a new member of our community, you will have access to all of our latest features and tools, including
+        personalized property recommendations, real-time market data, and much more. We're confident that you'll find
+        everything you need to make your home search a success.
+      </p>
+      <p>If you have any questions or feedback, please don't hesitate to reach out to our support team. We're always here to
+        help.
+      </p>
+      <p> Once again, welcome to Homely! We look forward to helping you find your perfect home.
+      </p>
+      <p> Best regards, </p>
+      <p>Gagandeep Kaur
+      </p>
+      <p>
+       Homely
+      </p>
+    </div>`,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        res.redirect("/welcome")
+      })
+      .catch((error) => {
+        console.error(error);
+        res.render("sign-up", { values, errors });
+      });
+  } else {
+    res.render("sign-up", { values, errors });
+  }
 });
 
 app.get("/log-in", (req, res) => {
   res.render("log-in");
 });
+
 app.post("/log-in", (req, res) => {
   let values = req.body;
   let errors = {
@@ -94,13 +138,16 @@ app.post("/log-in", (req, res) => {
   errors.email = checkText(values.email);
   errors.pwd = checkText(values.pwd);
 
-  if(!errors.email && !errors.pwd) {
-    values = {}
-  } 
-  
+  if (!errors.email && !errors.pwd) {
+    values = {};
+  }
+
   res.render("log-in", { values, errors });
 });
 
+app.get("/welcome", (req, res) => {
+  res.render("welcome")
+})
 // *** DO NOT MODIFY THE LINES BELOW ***
 
 // This use() will not allow requests to go beyond it
