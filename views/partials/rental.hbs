@@ -1,0 +1,22 @@
+<div class="card hoverable">
+    {{!-- headline: "City Loft",
+    city: "Vaughan",
+    province: "Ontario",
+    numSleeps: 4,
+    numBedrooms: 2,
+    numBathrooms: 1,
+    pricePerNight: 200.0,
+    imageUrl: "/img/city-loft.jpg",
+    featuredRental: false, --}}
+    <div class="card-image">
+        <img src="{{imageUrl}}">
+        <span class="card-title">{{headline}}</span>
+    </div>
+    <div class="card-content">
+        <p>Location: {{city}}, {{province}}</p>
+        <p>Sleeps: {{numSleeps}} ~ Bedrooms: {{numBedrooms}} ~ Bathrooms: {{numBathrooms}}</p>
+    </div>
+    <div class="card-action">
+        <h5>${{pricePerNight}}/night</h5>
+    </div>
+</div>

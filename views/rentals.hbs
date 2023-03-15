@@ -1,0 +1,13 @@
+<div class="container">
+    {{#each locations}}
+    <h3>{{cityProvince}}</h3>
+    <div class="divider bottom-margin"></div>
+    <div class="row">
+        {{#each rentals}}
+        <div class="col s12 l6">
+            {{>rental}}
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

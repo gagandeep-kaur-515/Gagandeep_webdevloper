@@ -1,0 +1,42 @@
+<div>
+    <div class="parallax-container">
+        <div class="parallax"><img src="/img/hero_section.jpg" width="100%"></div>
+        <div class="img-overlap-text">
+            <h4>DO YOU WANT A DREAMY HOUSE AND WORRIED ABOUT PRICES?</h4>
+            <p>DON'T WORRY! DREAMY HAS BOUGHT TO YOU DREAMY HOUSES AT WONDERFUL PRICES.</p>
+        </div>
+    </div>
+    <div class="row container margin-2">
+        <div class="col s12 l3">
+            <i class=" text-darken-4 large material-icons">security</i>
+            <h5>Safety and Security</h5>
+            <p>Your safety is our top priority with 24/7 surveillance and secure locks.</p>
+        </div>
+        <div class="col s12 l3">
+            <i class="large material-icons">auto_awesome</i>
+            <h5>Cleanliness</h5>
+            <p>Our homes are spotless and sanitized for your safety and comfort.</p>
+        </div>
+        <div class="col s12 l3">
+            <i class="large material-icons">lock_open</i>
+            <h5>Easy Check-ins</h5>
+            <p>Enjoy a hassle-free check-in experience with our self check-in and digital lock system.</p>
+        </div>
+        <div class="col s12 l3">
+            <i class="large material-icons">verified_user</i>
+            <h5>Privacy</h5>
+            <p>Relax in your own private space with a secluded location, private entrance, and no shared spaces.</p>
+        </div>
+    </div>
+    <div class="container">
+        <h3>Featured Rentals</h3>
+        <div class="divider bottom-margin"></div>
+        <div class="row">
+            {{#each rentals}}
+            <div class="col s12 l4 ">
+                {{>rental}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
